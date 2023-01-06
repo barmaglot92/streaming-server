@@ -65,19 +65,19 @@ COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
 # Add NGINX path, config and static files.
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
 ADD nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /opt/data/hls && mkdir /www 
+RUN mkdir -p /opt/data/hls
 RUN chmod -R 777 /opt/data
 
 # # Add S3FS
-RUN apk add --update --no-cache s3fs;
-# RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
-#    cd s3fs-fuse; \
-#    git checkout tags/${S3FS_VERSION}; \
-#    ./autogen.sh; \
-#    ./configure --prefix=/usr; \
-#    make; \
-#    make install; \
-#    rm -rf /var/cache/apk/*;
+RUN apk --update add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash pcre;
+RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
+   cd s3fs-fuse; \
+   git checkout tags/${S3FS_VERSION}; \
+   ./autogen.sh; \
+   ./configure --prefix=/usr; \
+   make; \
+   make install; \
+   rm -rf /var/cache/apk/*;
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
