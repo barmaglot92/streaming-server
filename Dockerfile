@@ -69,7 +69,7 @@ RUN mkdir -p /opt/data/hls && mkdir /www
 RUN chmod -R 777 /opt/data
 
 # # Add S3FS
-RUN apk --update s3fs;
+RUN apk add --update --no-cache s3fs;
 # RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
 #    cd s3fs-fuse; \
 #    git checkout tags/${S3FS_VERSION}; \
