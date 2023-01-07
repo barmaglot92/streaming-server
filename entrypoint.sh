@@ -39,7 +39,9 @@ if [ ! -f "${AWS_S3_AUTHFILE}" ]; then
    chmod 400 ${AWS_S3_AUTHFILE}
 fi
 
+ls -alah /root/.s3fs
 cat /root/.s3fs
+echo $AWS_S3_URL
 
 echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 # mkdir -p ${AWS_S3_MOUNTPOINT}
