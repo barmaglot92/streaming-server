@@ -5,8 +5,6 @@
 # Fail on all script errors
 
 
-cat /etc/passwd
-
 set -e
 [ "${DEBUG:-false}" == 'true' ] && { set -x; S3FS_DEBUG='-d -d'; }
 
