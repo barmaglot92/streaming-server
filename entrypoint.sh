@@ -4,8 +4,6 @@
 
 # Fail on all script errors
 
-env
-
 set -e
 [ "${DEBUG:-false}" == 'true' ] && { set -x; S3FS_DEBUG='-d -d'; }
 
@@ -40,6 +38,8 @@ if [ ! -f "${AWS_S3_AUTHFILE}" ]; then
    echo "${AWS_ACCESS_KEY_ID}:${AWS_SECRET_ACCESS_KEY}" > ${AWS_S3_AUTHFILE}
    chmod 400 ${AWS_S3_AUTHFILE}
 fi
+
+cat /root/.s3fs
 
 echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 # mkdir -p ${AWS_S3_MOUNTPOINT}
