@@ -45,7 +45,9 @@ echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 
 # s3fs mount command
 s3fs $S3FS_DEBUG $S3FS_ARGS -o default_acl=public-read -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o endpoint=${AWS_S3_REGION} -o allow_other ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT} -o nonempty
-## s3fs -o passwd_file=/root/.s3fs -o endpoint=us-east-2 volatileoptions-streaming /opt/data
+
+ls -alah /opt/data
+ls -alah /opt/data/hls
 
 # RUN NGINX
 nginx
