@@ -10,7 +10,6 @@ set -e
 : ${AWS_S3_AUTHFILE:='/root/.s3fs'}
 : ${AWS_S3_MOUNTPOINT:='/opt/data/hls'}
 : ${AWS_S3_URL:='https://storage.yandexcloud.net'}
-: ${AWS_S3_REGION:=''}
 
 
 # If no command specified, print error
@@ -40,9 +39,6 @@ fi
 
 echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 # mkdir -p ${AWS_S3_MOUNTPOINT}
-
-echo $AWS_S3_AUTHFILE
-echo $AWS_S3_URL
 
 # s3fs mount command
 s3fs -d -o default_acl=public-read -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o allow_other ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT} -o nonempty
