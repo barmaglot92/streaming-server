@@ -5,14 +5,16 @@
 # Fail on all script errors
 
 set -e
-[ "${DEBUG:-false}" == 'true' ] && { set -x; S3FS_DEBUG='-d -d'; }
 
 # Defaults
 : ${AWS_S3_AUTHFILE:='/root/.s3fs'}
 : ${AWS_S3_MOUNTPOINT:='/opt/data'}
 : ${AWS_S3_URL:='https://s3.amazonaws.com'}
-: ${AWS_S3_REGION:='us-east-1'}
+: ${AWS_S3_REGION:=''}
 : ${S3FS_ARGS:=''}
+
+
+env
 
 # If no command specified, print error
 [ "$1" == "" ] && set -- "$@" bash -c 'echo "Error: Please specify a command to run."; exit 128'
@@ -47,10 +49,7 @@ echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 # mkdir -p ${AWS_S3_MOUNTPOINT}
 
 # s3fs mount command
-s3fs $S3FS_DEBUG $S3FS_ARGS -o default_acl=public-read -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o endpoint=${AWS_S3_REGION} -o allow_other ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT} -o nonempty
-
-ls -alah /opt/data
-ls -alah /opt/data/hls
+s3fs -d $S3FS_ARGS -o default_acl=public-read -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o endpoint=${AWS_S3_REGION} -o allow_other ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT} -o nonempty
 
 # RUN NGINX
 nginx
