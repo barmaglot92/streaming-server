@@ -9,7 +9,7 @@ set -e
 # Defaults
 : ${AWS_S3_AUTHFILE:='/root/.s3fs'}
 : ${AWS_S3_MOUNTPOINT:='/opt/data/hls'}
-: ${AWS_S3_URL:='https://storage.yandexcloud.net'}
+: ${AWS_S3_URL:='https://storage.yandexcloud.net/'}
 
 
 # If no command specified, print error
