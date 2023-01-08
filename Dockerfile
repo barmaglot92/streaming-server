@@ -6,8 +6,6 @@ ARG S3FS_VERSION=v1.85
 FROM alpine:3.17 as build-ffmpeg
 RUN apk add --update --no-cache ffmpeg
 
-RUN whereis ffmpeg
-
 #############################
 #Build the NGINX-build image.
 FROM alpine:3.17 as build-nginx
