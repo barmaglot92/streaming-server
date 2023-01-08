@@ -5,7 +5,7 @@ ARG S3FS_VERSION=v1.85
 FROM alpine:3.17 as build-ffmpeg
 ARG PREFIX=/usr/local
 ARG MAKEFLAGS="-j4"
-ARG FFMPEG_VERSION=5.1.2
+ARG FFMPEG_VERSION=4.2.1
 
 # FFmpeg build dependencies.
 RUN apk add --update --no-cache \
