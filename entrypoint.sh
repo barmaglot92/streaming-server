@@ -8,13 +8,10 @@ set -e
 
 # Defaults
 : ${AWS_S3_AUTHFILE:='/root/.s3fs'}
-: ${AWS_S3_MOUNTPOINT:='/opt/data'}
-: ${AWS_S3_URL:='https://s3.amazonaws.com'}
+: ${AWS_S3_MOUNTPOINT:='/opt/data/hls'}
+: ${AWS_S3_URL:='https://storage.yandexcloud.net'}
 : ${AWS_S3_REGION:=''}
-: ${S3FS_ARGS:=''}
 
-
-env
 
 # If no command specified, print error
 [ "$1" == "" ] && set -- "$@" bash -c 'echo "Error: Please specify a command to run."; exit 128'
@@ -41,15 +38,14 @@ if [ ! -f "${AWS_S3_AUTHFILE}" ]; then
    chmod 400 ${AWS_S3_AUTHFILE}
 fi
 
-ls -alah /root/.s3fs
-cat /root/.s3fs
-echo $AWS_S3_URL
-
 echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 # mkdir -p ${AWS_S3_MOUNTPOINT}
 
+echo $AWS_S3_AUTHFILE
+echo $AWS_S3_URL
+
 # s3fs mount command
-s3fs -d $S3FS_ARGS -o default_acl=public-read -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o endpoint=${AWS_S3_REGION} -o allow_other ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT} -o nonempty
+s3fs -d -o default_acl=public-read -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o allow_other ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT} -o nonempty
 
 # RUN NGINX
 nginx
