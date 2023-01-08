@@ -1,10 +1,6 @@
 ARG NGINX_VERSION=1.22.1
 ARG NGINX_RTMP_VERSION=1.2.2
-ARG FFMPEG_VERSION=4.2.1
 ARG S3FS_VERSION=v1.85
-
-FROM alpine:3.17 as build-ffmpeg
-RUN apk add --update --no-cache ffmpeg
 
 #############################
 #Build the NGINX-build image.
@@ -68,7 +64,7 @@ ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
 
 # # Add S3FS
-RUN apk --update add fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash pcre;
+RUN apk add --update --no-cache ffmpeg fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash pcre;
 RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
    cd s3fs-fuse; \
    git checkout tags/${S3FS_VERSION}; \
