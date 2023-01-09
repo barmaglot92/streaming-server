@@ -62,7 +62,7 @@ COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
 ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
-RUN chmod 744 /opt/data
+RUN chmod -R 744 /opt/data
 
 # # Add S3FS
 RUN apk add --update --no-cache ffmpeg fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash pcre;
