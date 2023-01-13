@@ -1,9 +1,5 @@
 #!/usr/bin/env bash
 
-# Entry point to mount s3fs filesystem before exec'ing command.
-
-# Fail on all script errors
-
 set -e
 
 # Defaults
