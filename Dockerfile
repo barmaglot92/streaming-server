@@ -1,5 +1,5 @@
 ARG NGINX_VERSION=1.22.1
-ARG NGINX_RTMP_VERSION=1.1.7.10
+ARG NGINX_RTMP_VERSION=1.2.2
 ARG S3FS_VERSION=v1.85
 
 #############################
@@ -35,8 +35,8 @@ RUN cd /tmp && \
 
 # Get nginx-rtmp module.
 RUN cd /tmp && \
-  wget https://github.com/sergey-dryabzhinsky/nginx-rtmp-module/archive/refs/tags/v${NGINX_RTMP_VERSION}.tar.gz && \
-  tar zxf v${NGINX_RTMP_VERSION}.tar.gz && rm v${NGINX_RTMP_VERSION}.tar.gz
+  wget https://github.com/arut/nginx-rtmp-module/archive/refs/tags/v${NGINX_RTMP_VERSION}.tar.gz -O nginx-rtmp-module-${NGINX_RTMP_VERSION}.tar.gz && \
+  tar zxf nginx-rtmp-module-${NGINX_RTMP_VERSION}.tar.gz && rm nginx-rtmp-module-${NGINX_RTMP_VERSION}.tar.gz
 
 # Compile nginx with nginx-rtmp module.
 RUN cd /tmp/nginx-${NGINX_VERSION} && \
