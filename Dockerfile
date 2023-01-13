@@ -1,6 +1,6 @@
 ARG NGINX_VERSION=1.22.1
 ARG NGINX_RTMP_VERSION=1.2.2
-ARG S3FS_VERSION=v1.91
+ARG S3FS_VERSION=v1.90
 
 #############################
 #Build the NGINX-build image.
