@@ -1,6 +1,6 @@
 ARG NGINX_VERSION=1.22.1
 ARG NGINX_RTMP_VERSION=1.2.2
-ARG S3FS_VERSION=v1.90
+ARG S3FS_VERSION=v1.91
 
 #############################
 #Build the NGINX-build image.
@@ -74,6 +74,9 @@ RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
    make; \
    make install; \
    rm -rf /var/cache/apk/*;
+
+  
+ADD fuse.conf /etc/fuse.conf
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
