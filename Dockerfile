@@ -137,7 +137,8 @@ RUN apk --no-cache --update add \
   pcre \
   x264-dev \
   rtmpdump \
-  freetype
+  freetype \
+  fuse
 
 
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
