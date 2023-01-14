@@ -118,7 +118,7 @@ ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
 
 # # Add S3FS
-RUN apk add --update --no-cache ffmpeg fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash pcre;
+RUN apk add --update --no-cache alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash pcre;
 RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
    cd s3fs-fuse; \
    git checkout tags/${S3FS_VERSION}; \
