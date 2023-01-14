@@ -140,7 +140,8 @@ RUN apk --no-cache --update add \
   freetype \
   fuse \
   fuse-dev \
-  libxml2-dev
+  libxml2-dev \
+  alpine-sdk
 
 
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
