@@ -42,7 +42,7 @@ RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
   ./configure \
   --prefix=${PREFIX} \
   --enable-libx264 \
-  --enable-gpl
+  --enable-gpl \
   --extra-libs="-lpthread -lm" && \
   make && make install && make distclean
 
