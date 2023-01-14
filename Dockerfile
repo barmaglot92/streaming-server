@@ -3,59 +3,59 @@ ARG NGINX_RTMP_VERSION=1.2.2
 ARG S3FS_VERSION=v1.91
 ARG FFMPEG_VERSION=5.1.2
 
-# # Build the FFmpeg-build image.
-# FROM alpine:3.17 as build-ffmpeg
-# ARG FFMPEG_VERSION
-# ARG PREFIX=/usr/local/ffmpeg_build
-# ARG MAKEFLAGS="-j4"
+# Build the FFmpeg-build image.
+FROM alpine:3.17 as build-ffmpeg
+ARG FFMPEG_VERSION
+ARG PREFIX=/usr/local/ffmpeg_build
+ARG MAKEFLAGS="-j4"
 
-# # FFmpeg build dependencies.
-# RUN apk add --update --no-cache \
-#   build-base \
-#   coreutils \
-#   freetype-dev \
-#   lame-dev \
-#   libogg-dev \
-#   libass \
-#   libass-dev \
-#   libvpx-dev \
-#   libvorbis-dev \
-#   libwebp-dev \
-#   libtheora-dev \
-#   opus-dev \
-#   pkgconf \
-#   pkgconfig \
-#   rtmpdump-dev \
-#   wget \
-#   x264-dev \
-#   x265-dev \
-#   yasm
+# FFmpeg build dependencies.
+RUN apk add --update --no-cache \
+  build-base \
+  coreutils \
+  freetype-dev \
+  lame-dev \
+  libogg-dev \
+  libass \
+  libass-dev \
+  libvpx-dev \
+  libvorbis-dev \
+  libwebp-dev \
+  libtheora-dev \
+  opus-dev \
+  pkgconf \
+  pkgconfig \
+  rtmpdump-dev \
+  wget \
+  x264-dev \
+  x265-dev \
+  yasm
 
 
-# # Get FFmpeg source.
-# RUN cd /tmp/ && \
-#   wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
-#   tar zxf ffmpeg-${FFMPEG_VERSION}.tar.gz && rm ffmpeg-${FFMPEG_VERSION}.tar.gz
+# Get FFmpeg source.
+RUN cd /tmp/ && \
+  wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+  tar zxf ffmpeg-${FFMPEG_VERSION}.tar.gz && rm ffmpeg-${FFMPEG_VERSION}.tar.gz
 
-# # Compile ffmpeg.
-# RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
-#   ./configure \
-#   # --pkg-config-flags="--static" \
-#   --prefix=${PREFIX} \
-#   --enable-libx264 \
-#   --enable-gpl \
-#   --enable-version3 \
-#   --enable-nonfree  \
-#   --enable-librtmp \
-#   --enable-libfreetype \
-#   --disable-debug \
-#   --disable-ffplay \
-#   --disable-doc \
-#   --extra-libs="-lpthread -lm" && \
-#   make && make install && make distclean
+# Compile ffmpeg.
+RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
+  ./configure \
+  # --pkg-config-flags="--static" \
+  --prefix=${PREFIX} \
+  --enable-libx264 \
+  --enable-gpl \
+  --enable-version3 \
+  --enable-nonfree  \
+  --enable-librtmp \
+  --enable-libfreetype \
+  --disable-debug \
+  --disable-ffplay \
+  --disable-doc \
+  --extra-libs="-lpthread -lm" && \
+  make && make install && make distclean
 
-# # Cleanup.
-# RUN rm -rf /var/cache/* /tmp/*
+# Cleanup.
+RUN rm -rf /var/cache/* /tmp/*
 
 #############################
 #Build the NGINX-build image.
@@ -144,9 +144,8 @@ COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
 # Add NGINX path, config and static files.
 ENV PATH "${PATH}:/usr/local/nginx_build/sbin:/usr/local/s3fs_build:/usr/local/ffmpeg_build"
 ADD nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /opt/data/hls
-
 ADD fuse.conf /etc/fuse.conf
+RUN mkdir -p /opt/data/hls
 
 
 ADD entrypoint.sh /
