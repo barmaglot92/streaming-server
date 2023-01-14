@@ -120,7 +120,7 @@ ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
 
 # # Add S3FS
-RUN apk add --update --no-cache s3fs-fuse ffmpeg;
+RUN apk add --update --no-cache s3fs ffmpeg;
 # RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
 #    cd s3fs-fuse; \
 #    git checkout tags/${S3FS_VERSION}; \
