@@ -96,7 +96,7 @@ RUN cd /tmp && \
 # Compile nginx with nginx-rtmp module.
 RUN cd /tmp/nginx-${NGINX_VERSION} && \
   ./configure \
-  --prefix=/usr/local/nginx \
+  --prefix=/usr/local/nginx_build \
   --add-module=/tmp/nginx-rtmp-module-${NGINX_RTMP_VERSION} \
   --conf-path=/etc/nginx/nginx.conf \
   --with-threads \
@@ -121,7 +121,7 @@ RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
    cd s3fs-fuse; \
    git checkout tags/${S3FS_VERSION}; \
    ./autogen.sh; \
-   ./configure --prefix=/usr; \
+   ./configure --prefix=/usr/local/s3fs_build; \
    make; \
    make install; \
    rm -rf /var/cache/apk/*;
@@ -131,8 +131,8 @@ RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
 FROM alpine:3.17
 LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
 
-COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
-COPY --from=build-s3fs /usr /usr
+COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
+COPY --from=build-s3fs /usr/local/s3fs_build /usr/local/s3fs_build
 # COPY --from=build-ffmpeg /usr/local /usr/local
 
 # Add NGINX path, config and static files.
