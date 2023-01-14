@@ -37,7 +37,7 @@ echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 # mkdir -p ${AWS_S3_MOUNTPOINT}
 
 # s3fs mount command
-s3fs -dd -o passwd_file=${AWS_S3_AUTHFILE} -o use_path_request_style -o url=${AWS_S3_URL} -o allow_other -o umask=000 ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT}
+s3fs -d -d -o passwd_file=${AWS_S3_AUTHFILE} -o use_path_request_style -o url=${AWS_S3_URL} -o allow_other -o umask=000 ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT}
 
 # RUN NGINX
 # nginx
