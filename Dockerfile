@@ -10,7 +10,7 @@ ARG S3FS_VERSION=v1.91
 # ARG MAKEFLAGS="-j4"
 
 # # FFmpeg build dependencies.
-# RUN apk add --update \
+# RUN apk add --update --no-cache \
 #   build-base \
 #   coreutils \
 #   freetype-dev \
@@ -119,10 +119,10 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
 
-RUN apk --udpate add bash ffmpeg
+RUN apk --update --no-cache add bash ffmpeg
 
 # # Add S3FS
-RUN apk --update add --virtual build-dependencies \
+RUN apk --update --no-cache add --virtual build-dependencies \
         build-base alpine-sdk \
         fuse fuse-dev \
         automake autoconf git \
