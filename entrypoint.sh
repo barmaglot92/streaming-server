@@ -5,7 +5,7 @@ set -e
 # Defaults
 : ${AWS_S3_AUTHFILE:='/root/.s3fs'}
 : ${AWS_S3_MOUNTPOINT:='/opt/data/hls'}
-: ${AWS_S3_URL:='https://storage.yandexcloud.net/'}
+: ${AWS_S3_URL:='http://storage.yandexcloud.net'}
 
 
 # If no command specified, print error
@@ -37,7 +37,7 @@ echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 # mkdir -p ${AWS_S3_MOUNTPOINT}
 
 # s3fs mount command
-s3fs -d -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o allow_other -o umask=000 ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT}
+s3fs -d -o passwd_file=${AWS_S3_AUTHFILE} -o use_path_request_style -o url=${AWS_S3_URL} -o allow_other -o umask=000 ${AWS_S3_BUCKET_NAME} ${AWS_S3_MOUNTPOINT}
 
 # RUN NGINX
 # nginx
