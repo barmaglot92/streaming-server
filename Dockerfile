@@ -4,7 +4,7 @@ ARG S3FS_VERSION=v1.91
 # ARG FFMPEG_VERSION=5.1.2
 
 # # Build the FFmpeg-build image.
-# FROM alpine:3.8 as build-ffmpeg
+# FROM alpine:3.17 as build-ffmpeg
 # ARG FFMPEG_VERSION
 # ARG PREFIX=/usr/local
 # ARG MAKEFLAGS="-j4"
@@ -101,27 +101,14 @@ RUN cd /tmp/nginx-${NGINX_VERSION} && \
   --conf-path=/etc/nginx/nginx.conf \
   --with-threads \
   --with-file-aio \
-  --with-debug && \
   cd /tmp/nginx-${NGINX_VERSION} && make && make install
 
 # ###############################
 
-##########################
-# Build the release image.
-FROM alpine:3.17
-LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
 
-COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
-# COPY --from=build-ffmpeg /usr/local /usr/local
-
-# Add NGINX path, config and static files.
-ENV PATH "${PATH}:/usr/local/nginx/sbin"
-ADD nginx.conf /etc/nginx/nginx.conf
-RUN mkdir -p /opt/data/hls
-
-RUN apk --update --no-cache add bash ffmpeg
-
-# # Add S3FS
+# # Build the s3fs image.
+FROM alpine:3.17 as build-s3fs
+ARG S3FS_VERSION
 RUN apk --update --no-cache add --virtual build-dependencies \
         build-base alpine-sdk \
         fuse fuse-dev \
@@ -139,8 +126,23 @@ RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
    make install; \
    rm -rf /var/cache/apk/*;
 
-  
+##########################
+# Build the release image.
+FROM alpine:3.17
+LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
+
+COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
+COPY --from=build-s3fs /usr /usr
+# COPY --from=build-ffmpeg /usr/local /usr/local
+
+# Add NGINX path, config and static files.
+ENV PATH "${PATH}:/usr/local/nginx/sbin"
+ADD nginx.conf /etc/nginx/nginx.conf
+RUN mkdir -p /opt/data/hls
+
 ADD fuse.conf /etc/fuse.conf
+
+RUN apk --update --no-cache add bash ffmpeg
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
