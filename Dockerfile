@@ -120,15 +120,21 @@ ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
 
 # # Add S3FS
-RUN apk add --update --no-cache s3fs-fuse ffmpeg
-# RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
-#    cd s3fs-fuse; \
-#    git checkout tags/${S3FS_VERSION}; \
-#    ./autogen.sh; \
-#    ./configure --prefix=/usr; \
-#    make; \
-#    make install; \
-#    rm -rf /var/cache/apk/*;
+RUN apk add --update --no-cache ffmpeg build-base alpine-sdk \
+        fuse fuse-dev \
+        automake autoconf git \
+        libressl-dev  \
+        curl-dev libxml2-dev  \
+        ca-certificates;
+
+RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
+   cd s3fs-fuse; \
+   git checkout tags/${S3FS_VERSION}; \
+   ./autogen.sh; \
+   ./configure --prefix=/usr; \
+   make; \
+   make install; \
+   rm -rf /var/cache/apk/*;
 
   
 ADD fuse.conf /etc/fuse.conf
