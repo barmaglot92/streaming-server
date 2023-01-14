@@ -124,7 +124,6 @@ RUN apk --update add --virtual build-dependencies \
         ffmpeg build-base alpine-sdk \
         fuse fuse-dev \
         automake autoconf git \
-        libressl-dev  \
         curl-dev libxml2-dev  \
         ca-certificates 
         
