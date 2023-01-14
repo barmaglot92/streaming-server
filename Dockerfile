@@ -133,7 +133,7 @@ FROM alpine:3.17
 LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
 
 RUN apk --no-cache --update add \
-  bash
+  bash \
   pcre
 
 
