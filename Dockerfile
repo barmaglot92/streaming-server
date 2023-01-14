@@ -139,7 +139,7 @@ RUN apk --no-cache --update add \
 
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
 # COPY --from=build-s3fs /usr/local/s3fs_build /usr/local/s3fs_build
-# COPY --from=build-ffmpeg /usr/local/ffmpeg_build /usr/local/ffmpeg_build
+COPY --from=build-ffmpeg /usr/local/ffmpeg_build /usr/local/ffmpeg_build
 
 # Add NGINX path, config and static files.
 ENV PATH "${PATH}:/usr/local/nginx_build/sbin:/usr/local/s3fs_build:/usr/local/ffmpeg_build"
