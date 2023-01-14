@@ -127,7 +127,7 @@ RUN apk --update --no-cache add --virtual build-dependencies \
         fuse fuse-dev \
         automake autoconf git \
         curl-dev libxml2-dev  \
-        ca-certificates 
+        ca-certificates pcre;
         
 
 RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
