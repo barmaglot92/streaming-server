@@ -41,27 +41,8 @@ RUN cd /tmp/ && \
 RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
   ./configure \
   --prefix=${PREFIX} \
-  --enable-version3 \
-  --enable-gpl \
-  --enable-nonfree \
-  --enable-small \
-  --enable-libmp3lame \
   --enable-libx264 \
-  --enable-libx265 \
-  --enable-libvpx \
-  --enable-libtheora \
-  --enable-libvorbis \
-  --enable-libopus \
-  --enable-libass \
-  --enable-libwebp \
-  --enable-librtmp \
-  --enable-postproc \
-  --enable-avresample \
-  --enable-libfreetype \
-  --enable-openssl \
-  --disable-debug \
-  --disable-doc \
-  --disable-ffplay \
+  --enable-gpl
   --extra-libs="-lpthread -lm" && \
   make && make install && make distclean
 
