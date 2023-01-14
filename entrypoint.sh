@@ -42,4 +42,4 @@ s3fs -d -o passwd_file=${AWS_S3_AUTHFILE} -o url=${AWS_S3_URL} -o allow_other -o
 # RUN NGINX
 # nginx
 
-sleep 10
+sleep 10m
