@@ -119,9 +119,11 @@ ENV PATH "${PATH}:/usr/local/nginx/sbin"
 ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
 
+RUN apk --udpate add bash ffmpeg
+
 # # Add S3FS
 RUN apk --update add --virtual build-dependencies \
-        ffmpeg build-base alpine-sdk \
+        build-base alpine-sdk \
         fuse fuse-dev \
         automake autoconf git \
         curl-dev libxml2-dev  \
