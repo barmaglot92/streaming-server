@@ -133,8 +133,9 @@ FROM alpine:3.17
 LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
 
 RUN apk --no-cache --update add \
+  bash
   pcre
-  
+
 
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
 # COPY --from=build-s3fs /usr/local/s3fs_build /usr/local/s3fs_build
@@ -147,7 +148,6 @@ RUN mkdir -p /opt/data/hls
 
 ADD fuse.conf /etc/fuse.conf
 
-RUN apk --update --no-cache add bash
 
 ADD entrypoint.sh /
 RUN chmod +x /entrypoint.sh
