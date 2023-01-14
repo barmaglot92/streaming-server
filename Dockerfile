@@ -100,7 +100,7 @@ RUN cd /tmp/nginx-${NGINX_VERSION} && \
   --add-module=/tmp/nginx-rtmp-module-${NGINX_RTMP_VERSION} \
   --conf-path=/etc/nginx/nginx.conf \
   --with-threads \
-  --with-file-aio \
+  --with-file-aio && \
   cd /tmp/nginx-${NGINX_VERSION} && make && make install
 
 # ###############################
