@@ -1,6 +1,72 @@
 ARG NGINX_VERSION=1.22.1
 ARG NGINX_RTMP_VERSION=1.2.2
-ARG S3FS_VERSION=v1.90
+ARG S3FS_VERSION=v1.91
+ARG FFMPEG_VERSION=5.1.2
+
+# Build the FFmpeg-build image.
+FROM alpine:3.8 as build-ffmpeg
+ARG FFMPEG_VERSION
+ARG PREFIX=/usr/local
+ARG MAKEFLAGS="-j4"
+
+# FFmpeg build dependencies.
+RUN apk add --update \
+  build-base \
+  coreutils \
+  freetype-dev \
+  lame-dev \
+  libogg-dev \
+  libass \
+  libass-dev \
+  libvpx-dev \
+  libvorbis-dev \
+  libwebp-dev \
+  libtheora-dev \
+  opus-dev \
+  pkgconf \
+  pkgconfig \
+  rtmpdump-dev \
+  wget \
+  x264-dev \
+  x265-dev \
+  yasm
+
+
+# Get FFmpeg source.
+RUN cd /tmp/ && \
+  wget http://ffmpeg.org/releases/ffmpeg-${FFMPEG_VERSION}.tar.gz && \
+  tar zxf ffmpeg-${FFMPEG_VERSION}.tar.gz && rm ffmpeg-${FFMPEG_VERSION}.tar.gz
+
+# Compile ffmpeg.
+RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
+  ./configure \
+  --prefix=${PREFIX} \
+  --enable-version3 \
+  --enable-gpl \
+  --enable-nonfree \
+  --enable-small \
+  --enable-libmp3lame \
+  --enable-libx264 \
+  --enable-libx265 \
+  --enable-libvpx \
+  --enable-libtheora \
+  --enable-libvorbis \
+  --enable-libopus \
+  --enable-libass \
+  --enable-libwebp \
+  --enable-librtmp \
+  --enable-postproc \
+  --enable-avresample \
+  --enable-libfreetype \
+  --enable-openssl \
+  --disable-debug \
+  --disable-doc \
+  --disable-ffplay \
+  --extra-libs="-lpthread -lm" && \
+  make && make install && make distclean
+
+# Cleanup.
+RUN rm -rf /var/cache/* /tmp/*
 
 #############################
 #Build the NGINX-build image.
@@ -57,12 +123,12 @@ FROM alpine:3.17
 LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
 
 COPY --from=build-nginx /usr/local/nginx /usr/local/nginx
+COPY --from=build-ffmpeg /usr/local /usr/local
 
 # Add NGINX path, config and static files.
 ENV PATH "${PATH}:/usr/local/nginx/sbin"
 ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /opt/data/hls
-RUN chmod -R 777 /opt/data
 
 # # Add S3FS
 RUN apk add --update --no-cache ffmpeg fuse alpine-sdk automake autoconf libxml2-dev fuse-dev curl-dev git bash pcre;
