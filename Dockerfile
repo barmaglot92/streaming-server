@@ -135,7 +135,9 @@ LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
 RUN apk --no-cache --update add \
   bash \
   pcre \
-  x264-dev
+  x264 \
+  rtmpdump \
+  freetype
 
 
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
