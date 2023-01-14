@@ -145,7 +145,7 @@ COPY --from=build-s3fs /usr/local/s3fs_build /usr/local/s3fs_build
 COPY --from=build-ffmpeg /usr/local/ffmpeg_build /usr/local/ffmpeg_build
 
 # Add NGINX path, config and static files.
-ENV PATH "${PATH}:/usr/local/nginx_build/sbin:/usr/local/s3fs_build:/usr/local/ffmpeg_build/bin"
+ENV PATH "${PATH}:/usr/local/nginx_build/sbin:/usr/local/s3fs_build/bin:/usr/local/ffmpeg_build/bin"
 ADD nginx.conf /etc/nginx/nginx.conf
 ADD fuse.conf /etc/fuse.conf
 RUN mkdir -p /opt/data/hls
