@@ -138,7 +138,9 @@ RUN apk --no-cache --update add \
   x264-dev \
   rtmpdump \
   freetype \
-  fuse
+  fuse \
+  fuse-dev \
+  libxml2-dev
 
 
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
