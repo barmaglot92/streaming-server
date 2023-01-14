@@ -5,13 +5,17 @@ set -e
 # Defaults
 : ${AWS_S3_AUTHFILE:='/root/.s3fs'}
 : ${AWS_S3_MOUNTPOINT:='/opt/data/hls'}
-: ${AWS_S3_URL:='http://storage.yandexcloud.net'}
 
 
 # If no command specified, print error
 [ "$1" == "" ] && set -- "$@" bash -c 'echo "Error: Please specify a command to run."; exit 128'
 
 # Configuration checks
+if [ -z "$AWS_S3_URL" ]; then
+    echo "Error: AWS_S3_URL is not specified"
+    exit 128
+fi
+
 if [ -z "$AWS_S3_BUCKET_NAME" ]; then
     echo "Error: AWS_S3_BUCKET_NAME is not specified"
     exit 128
