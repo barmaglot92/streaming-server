@@ -132,6 +132,10 @@ RUN cd /tmp/nginx-${NGINX_VERSION} && \
 FROM alpine:3.17
 LABEL MAINTAINER Andrey Zhvakin <barmaglot92@gmail.com>
 
+RUN apk --no-cache --update add \
+  pcre
+  
+
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
 # COPY --from=build-s3fs /usr/local/s3fs_build /usr/local/s3fs_build
 # COPY --from=build-ffmpeg /usr/local/ffmpeg_build /usr/local/ffmpeg_build
