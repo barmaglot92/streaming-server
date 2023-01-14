@@ -1,7 +1,7 @@
 ARG NGINX_VERSION=1.22.1
 ARG NGINX_RTMP_VERSION=1.2.2
 ARG S3FS_VERSION=v1.91
-ARG FFMPEG_VERSION=4.2.1
+ARG FFMPEG_VERSION=5.1.2
 
 # Build the FFmpeg-build image.
 FROM alpine:3.8 as build-ffmpeg
@@ -40,6 +40,7 @@ RUN cd /tmp/ && \
 # Compile ffmpeg.
 RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
   ./configure \
+  --pkg-config-flags="--static" \
   --prefix=${PREFIX} \
   --enable-libx264 \
   --enable-gpl \
