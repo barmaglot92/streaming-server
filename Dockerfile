@@ -43,6 +43,12 @@ RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
   --prefix=${PREFIX} \
   --enable-libx264 \
   --enable-gpl \
+  --enable-version3 \
+  --enable-nonfree  \
+  --enable-librtmp \
+  --enable-libfreetype \
+  --disable-debug \
+  --disable-ffplay \
   --extra-libs="-lpthread -lm" && \
   make && make install && make distclean
 
