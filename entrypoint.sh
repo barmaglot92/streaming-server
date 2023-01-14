@@ -45,3 +45,5 @@ echo "==> Mounting S3 Filesystem ${AWS_S3_MOUNTPOINT}"
 
 # RUN NGINX
 # nginx
+
+sleep 10m
