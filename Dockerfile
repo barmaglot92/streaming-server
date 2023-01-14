@@ -51,6 +51,7 @@ RUN cd /tmp/ffmpeg-${FFMPEG_VERSION} && \
   --disable-debug \
   --disable-ffplay \
   --disable-doc \
+  --enable-small \
   --extra-libs="-lpthread -lm" && \
   make && make install && make distclean
 
