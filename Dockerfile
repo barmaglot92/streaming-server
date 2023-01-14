@@ -107,25 +107,25 @@ RUN cd /tmp/nginx-${NGINX_VERSION} && \
 # ###############################
 
 
-# # Build the s3fs image.
-# FROM alpine:3.17 as build-s3fs
-# ARG S3FS_VERSION
-# RUN apk --update --no-cache add --virtual build-dependencies \
-#         build-base alpine-sdk \
-#         fuse fuse-dev \
-#         automake autoconf git \
-#         curl-dev libxml2-dev  \
-#         ca-certificates pcre;
+# Build the s3fs image.
+FROM alpine:3.17 as build-s3fs
+ARG S3FS_VERSION
+RUN apk --update --no-cache add --virtual build-dependencies \
+        build-base alpine-sdk \
+        fuse fuse-dev \
+        automake autoconf git \
+        curl-dev libxml2-dev  \
+        ca-certificates pcre;
         
 
-# RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
-#    cd s3fs-fuse; \
-#    git checkout tags/${S3FS_VERSION}; \
-#    ./autogen.sh; \
-#    ./configure --prefix=/usr/local/s3fs_build; \
-#    make; \
-#    make install; \
-#    rm -rf /var/cache/apk/*;
+RUN git clone https://github.com/s3fs-fuse/s3fs-fuse.git; \
+   cd s3fs-fuse; \
+   git checkout tags/${S3FS_VERSION}; \
+   ./autogen.sh; \
+   ./configure --prefix=/usr/local/s3fs_build; \
+   make; \
+   make install; \
+   rm -rf /var/cache/apk/*;
 
 ##########################
 # Build the release image.
@@ -141,7 +141,7 @@ RUN apk --no-cache --update add \
 
 
 COPY --from=build-nginx /usr/local/nginx_build /usr/local/nginx_build
-# COPY --from=build-s3fs /usr/local/s3fs_build /usr/local/s3fs_build
+COPY --from=build-s3fs /usr/local/s3fs_build /usr/local/s3fs_build
 COPY --from=build-ffmpeg /usr/local/ffmpeg_build /usr/local/ffmpeg_build
 
 # Add NGINX path, config and static files.
